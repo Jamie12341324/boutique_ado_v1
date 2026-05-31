@@ -48,17 +48,23 @@ class StripeWH_Handler:
         # billing_details = intent.charges.data[0].billing_details
         billing_details = stripe_charge.billing_details # updated 
         shipping_details = intent.shipping
+        print(shipping_details.address)
         # grand_total = round(intent.charges.data[0].amount /100,2)
         grand_total = round(stripe_charge.amount /100,2)
 
-        for field, value in shipping_details.address.items():
-            if value=="":
-                shipping_details.address[field] = None
+        #for field, value in shipping_details.address.items():
+        #    if value=="":
+        #        shipping_details.address[field] = None
+
+       
 
         # update profile information if save_iinfo was checked
         profile = None
         username = intent.metadata.username
+        username = 'jamie'
+        print('username: ' + username)
         if username != 'AnonymousUser':
+            #profile = UserProfile.objects.get(user__username=username)
             profile = UserProfile.objects.get(user__username=username)
             if save_info:
                 profile.phone_number=shipping_details.phone
